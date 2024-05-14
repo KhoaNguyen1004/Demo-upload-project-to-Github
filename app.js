@@ -23,24 +23,23 @@ tags.forEach(tag => {
 
 function loadImages(query, isSearch = false) {
     const url = isSearch ? `${searchApiUrl}&query=${query}&per_page=10` : apiUrl;
-    console.log('Requesting URL:', url); 
-
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            const images = isSearch ? data.results : data; 
+    axios.get(url)
+        .then(response => {
+            const images = isSearch ? response.data.results : response.data; // Axios automatically accesses `.data`
             displayImages(images);
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => console.error('Error fetching images:', error));
 }
 
 function displayImages(images) {
     const imageGrid = document.querySelector('.image-grid');
-    imageGrid.innerHTML = '';
-    images.forEach(img => {
+    imageGrid.innerHTML = ''; // Clear existing images
+    images.forEach((img, index) => {
         const imgElement = document.createElement('img');
         imgElement.src = img.urls.small;
-        imgElement.loading = "lazy"; // Lazy Load
+        if (index >= 3) {
+            imgElement.loading = "lazy";  // Lazy load for images starting from the 4th
+        }
         imageGrid.appendChild(imgElement);
     });
 }

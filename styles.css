@@ -9,6 +9,14 @@ body, html {
     margin-top: 20px;
 }
 
+.search-container input{
+    border-radius: 8px;
+}
+
+.search-container button{
+    border-radius: 8px;
+}
+
 .tag-container {
     text-align: center;
     margin: 20px;
